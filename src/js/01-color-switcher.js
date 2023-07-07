@@ -1,15 +1,29 @@
-console.log('Hello!');
 const refs = {
   startButton: document.querySelector('[data-start]'),
   stopButton: document.querySelector('[data-stop]'),
+  body: document.querySelector('body'),
 };
 
-// console.log('refs.startButton :>> ', refs.startButton);
-// console.log('refs.stopButton :>> ', refs.stopButton);
+const TIMER = 1000;
 
 refs.startButton.addEventListener('click', startColorCycle);
 refs.stopButton.addEventListener('click', stopColorSycle);
+let intervalId = null;
 
-function startColorCycle() {}
+function startColorCycle() {
+  intervalId = setInterval(bodyColorRandomChange, TIMER);
+}
 
-function stopColorSycle() {}
+function stopColorSycle() {
+  clearInterval(intervalId);
+}
+
+function getRandomHexColor() {
+  return `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, 0)}`;
+}
+
+function bodyColorRandomChange() {
+  refs.body.style.backgroundColor = getRandomHexColor();
+}
