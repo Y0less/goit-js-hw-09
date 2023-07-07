@@ -18,22 +18,20 @@ const options = {
   minuteIncrement: 1,
   //   minDate: 'today',
   onClose(selectedDates) {
-    // console.log(selectedDates[0]);
     if (selectedDates[0] < new Date()) {
       Notify.failure('Please choose a date in the future');
+      return;
     }
+    refs.startButton.removeAttribute('disabled');
   },
 };
 
 const fp = flatpickr(refs.datePicker, options);
+refs.startButton.setAttribute('disabled', null);
 let timeLeft;
 refs.startButton.addEventListener('click', handleStart);
 
 function handleStart() {
-  if (fp.selectedDates[0] < new Date()) {
-    Notify.warning('Please choose valid date');
-    return;
-  }
   Notify.success('Countdown started!');
   const counterID = setInterval(() => {
     timeLeft = fp.selectedDates[0] - new Date();
